@@ -1,3 +1,3 @@
 # Hello vuepress!
 
-## 第一篇 vuepress 博客
+## 第一篇 vuepress 博客 :tada: :tada:
