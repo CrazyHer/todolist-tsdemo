@@ -1,16 +1,9 @@
 {
-  "name": "vuepress",
+  "name": "todo",
   "version": "1.0.0",
-  "description": "HeRui's homework",
+  "description": "HeRui's TodoList homework",
   "main": "index.js",
   "repository": "git@codeup.aliyun.com:5ffeba5b1e45db3c1cc26e42/repo_2021-01-19_2021011900520296.git",
   "author": "Crazy_her <877955100@qq.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "vuepress": "^1.8.0"
-  },
-  "scripts": {
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
-  }
+  "license": "MIT"
 }
