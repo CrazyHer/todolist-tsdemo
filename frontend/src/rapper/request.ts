@@ -1,4 +1,4 @@
-/* md5: 8be996cb01930f212257d2992694fcdc */
+/* md5: 6daf5c9e65929bcf586a8813faf8ab71 */
 /* Rap仓库id: 276124 */
 /* Rapper版本: 1.1.6 */
 /* eslint-disable */
@@ -59,7 +59,7 @@ export interface IModels {
    * 接口名：rmtodo
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=276124&mod=436710&itf=1860149
    */
-  'DELETE/todo': {
+  'POST/todo/del': {
     Req: {
       /**
        * todo ID
@@ -120,7 +120,7 @@ type ResSelector<T> = T
 export interface IResponseTypes {
   'GET/todo/getlist': ResSelector<IModels['GET/todo/getlist']['Res']>
   'PUT/todo': ResSelector<IModels['PUT/todo']['Res']>
-  'DELETE/todo': ResSelector<IModels['DELETE/todo']['Res']>
+  'POST/todo/del': ResSelector<IModels['POST/todo/del']['Res']>
   'POST/todo/finish': ResSelector<IModels['POST/todo/finish']['Res']>
   'POST/todo/star': ResSelector<IModels['POST/todo/star']['Res']>
   'POST/todo/unstar': ResSelector<IModels['POST/todo/unstar']['Res']>
@@ -183,13 +183,13 @@ export function createFetch(fetchConfig: commonLib.RequesterOption, extraConfig?
      * @param req 请求参数
      * @param extra 请求配置项
      */
-    'DELETE/todo': (req?: IModels['DELETE/todo']['Req'], extra?: commonLib.IExtra) => {
-      return sendRapperFetch('DELETE/todo', {
-        url: '/todo',
-        method: 'DELETE',
+    'POST/todo/del': (req?: IModels['POST/todo/del']['Req'], extra?: commonLib.IExtra) => {
+      return sendRapperFetch('POST/todo/del', {
+        url: '/todo/del',
+        method: 'POST',
         params: req,
         extra,
-      }) as Promise<IResponseTypes['DELETE/todo']>
+      }) as Promise<IResponseTypes['POST/todo/del']>
     },
 
     /**

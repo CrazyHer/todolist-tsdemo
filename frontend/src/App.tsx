@@ -1,5 +1,5 @@
 import {
-  AppBar,
+  Button,
   Checkbox,
   IconButton,
   List,
@@ -7,14 +7,16 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
+  Paper,
   Tab,
   Tabs,
+  TextField,
 } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
-import { fetch, useResponse } from "./rapper";
+import { fetch } from "./rapper";
 import { Delete, Star, StarOutline } from "@material-ui/icons";
 
 function App() {
@@ -24,23 +26,22 @@ function App() {
   };
 
   return (
-    <div>
-      <AppBar position='static' color='default'>
+    <div className='app'>
+      <Paper className='todolist'>
         <Tabs
           value={currentTab}
           onChange={handleChange}
           indicatorColor='primary'
           textColor='primary'
-          variant='scrollable'
+          centered
           scrollButtons='auto'>
           <Tab label='全部' />
           <Tab label='已完成' />
           <Tab label='未完成' />
           <Tab label='收藏' />
         </Tabs>
-      </AppBar>
-      <TabPanel tabValue={currentTab} />
-      <div></div>
+        <TabPanel tabValue={currentTab} />
+      </Paper>
     </div>
   );
 }
@@ -60,7 +61,8 @@ const TabPanel = (props: { tabValue: number }) => {
     | undefined
   >();
   let [errorMessage, setErrMsg] = useState<string>();
-
+  let [todoContent, setTodoContent] = useState<string>("");
+  let [query, setQuery] = useState<string>("");
   useEffect(() => {
     fetch["GET/todo/getlist"]()
       .then((res) => setRespData(res))
@@ -90,11 +92,18 @@ const TabPanel = (props: { tabValue: number }) => {
     setRespData(await fetch["GET/todo/getlist"]());
   };
   const handleDelete = async (id: number) => {
-    await fetch["DELETE/todo"]({ id });
+    await fetch["POST/todo/del"]({ id });
+    setRespData(await fetch["GET/todo/getlist"]());
+  };
+  const handleAdd = async (content: string) => {
+    await fetch["PUT/todo"]({ content });
+    setTodoContent("");
     setRespData(await fetch["GET/todo/getlist"]());
   };
 
-  let todolist = respData?.data;
+  let todolist = respData?.data.filter((x) =>
+    query.trim() === "" ? true : x.content.indexOf(query.trim()) > -1
+  );
   switch (tabValue) {
     case 0:
       break;
@@ -112,6 +121,12 @@ const TabPanel = (props: { tabValue: number }) => {
   }
   return (
     <div>
+      <TextField
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder='搜索TODO内容'
+        style={{ margin: 16 }}
+      />
       <List>
         {todolist?.map((v) => (
           <ListItem
@@ -131,15 +146,16 @@ const TabPanel = (props: { tabValue: number }) => {
             <ListItemText primary={v.content} />
             <ListItemSecondaryAction>
               {v.status === 1 ? (
-                <IconButton edge='end' onClick={() => handleStar(v.id)}>
+                <IconButton edge='end' onClick={() => handleUnstar(v.id)}>
                   <Star />
                 </IconButton>
-              ) : (
-                <IconButton edge='end' onClick={() => handleUnstar(v.id)}>
+              ) : v.status === 0 ? (
+                <IconButton edge='end' onClick={() => handleStar(v.id)}>
                   <StarOutline />
                 </IconButton>
+              ) : (
+                ""
               )}
-
               <IconButton edge='end' onClick={() => handleDelete(v.id)}>
                 <Delete />
               </IconButton>
@@ -147,6 +163,22 @@ const TabPanel = (props: { tabValue: number }) => {
           </ListItem>
         ))}
       </List>
+
+      <div className='Control'>
+        <TextField
+          value={todoContent}
+          onChange={(e) => setTodoContent(e.target.value)}
+          placeholder='输入TODO内容'
+        />
+        <Button
+          color='primary'
+          variant='contained'
+          style={{ marginLeft: 8 }}
+          onClick={() => handleAdd(todoContent)}
+          disabled={todoContent.trim() === ""}>
+          添加
+        </Button>
+      </div>
     </div>
   );
 };

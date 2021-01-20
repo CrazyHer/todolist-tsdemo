@@ -1,4 +1,4 @@
-/* md5: 9bca73b7d68e8870cd96779ddf43f018 */
+/* md5: f8627c9f9500e5f3563da381273ca918 */
 /* Rap仓库id: 276124 */
 /* Rapper版本: 1.1.6 */
 /* eslint-disable */
@@ -21,7 +21,7 @@ export const RequestTypes = {
 
   'PUT/todo': ['PUT/todo_REQUEST', 'PUT/todo_SUCCESS', 'PUT/todo_FAILURE'],
 
-  'DELETE/todo': ['DELETE/todo_REQUEST', 'DELETE/todo_SUCCESS', 'DELETE/todo_FAILURE'],
+  'POST/todo/del': ['POST/todo/del_REQUEST', 'POST/todo/del_SUCCESS', 'POST/todo/del_FAILURE'],
 
   'POST/todo/finish': ['POST/todo/finish_REQUEST', 'POST/todo/finish_SUCCESS', 'POST/todo/finish_FAILURE'],
 
@@ -46,10 +46,10 @@ interface IRapperStore {
     }
   >
 
-  'DELETE/todo': Array<
+  'POST/todo/del': Array<
     reduxLib.IInterfaceInfo & {
-      request: IModels['DELETE/todo']['Req']
-      response: IResponseTypes['DELETE/todo']
+      request: IModels['POST/todo/del']['Req']
+      response: IResponseTypes['POST/todo/del']
     }
   >
 
@@ -109,13 +109,13 @@ export const useResponse = {
    * 接口名：rmtodo
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=276124&mod=436710&itf=1860149
    */
-  'DELETE/todo': function useData(
-    filter?: {request?: IModels['DELETE/todo']['Req']} | {(storeData: IRapperStore['DELETE/todo'][0]): boolean}
+  'POST/todo/del': function useData(
+    filter?: {request?: IModels['POST/todo/del']['Req']} | {(storeData: IRapperStore['POST/todo/del'][0]): boolean}
   ) {
-    type Req = IModels['DELETE/todo']['Req']
-    type Item = IRapperStore['DELETE/todo'][0]
-    type Res = IResponseTypes['DELETE/todo']
-    return reduxLib.useResponseData<TRapperStoreKey, Req, Res | undefined, Item>('DELETE/todo', filter)
+    type Req = IModels['POST/todo/del']['Req']
+    type Item = IRapperStore['POST/todo/del'][0]
+    type Res = IResponseTypes['POST/todo/del']
+    return reduxLib.useResponseData<TRapperStoreKey, Req, Res | undefined, Item>('POST/todo/del', filter)
   },
 
   /**
@@ -205,16 +205,16 @@ export const useAPI = {
    * 接口名：rmtodo
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=276124&mod=436710&itf=1860149
    */
-  'DELETE/todo': function useData(
-    requestParams?: IModels['DELETE/todo']['Req'],
-    extra?: reduxLib.IUseAPIExtra<IModels['DELETE/todo']['Req']>
+  'POST/todo/del': function useData(
+    requestParams?: IModels['POST/todo/del']['Req'],
+    extra?: reduxLib.IUseAPIExtra<IModels['POST/todo/del']['Req']>
   ) {
-    type Req = IModels['DELETE/todo']['Req']
-    type Res = IResponseTypes['DELETE/todo']
-    type IFetcher = typeof fetch['DELETE/todo']
+    type Req = IModels['POST/todo/del']['Req']
+    type Res = IResponseTypes['POST/todo/del']
+    type IFetcher = typeof fetch['POST/todo/del']
     return reduxLib.useAPICommon<TRapperStoreKey, Req, Res | undefined, IFetcher>({
-      modelName: 'DELETE/todo',
-      fetcher: fetch['DELETE/todo'],
+      modelName: 'POST/todo/del',
+      fetcher: fetch['POST/todo/del'],
       requestParams,
       extra,
     })
@@ -313,12 +313,12 @@ export const useAllResponse = {
    * 接口名：rmtodo
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=276124&mod=436710&itf=1860149
    */
-  'DELETE/todo': function useData() {
+  'POST/todo/del': function useData() {
     return useSelector((state: reduxLib.IState) => {
-      const selectedState = (state['$$rapperResponseData'] && state['$$rapperResponseData']['DELETE/todo']) || []
+      const selectedState = (state['$$rapperResponseData'] && state['$$rapperResponseData']['POST/todo/del']) || []
       type TReturnItem = reduxLib.IInterfaceInfo & {
-        request?: IModels['DELETE/todo']['Req']
-        response?: IResponseTypes['DELETE/todo']
+        request?: IModels['POST/todo/del']['Req']
+        response?: IResponseTypes['POST/todo/del']
       }
       return selectedState as Array<TReturnItem>
     })
@@ -398,10 +398,10 @@ export const clearResponseCache = {
    * 接口名：rmtodo
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=276124&mod=436710&itf=1860149
    */
-  'DELETE/todo': (): void => {
+  'POST/todo/del': (): void => {
     reduxLib.dispatchAction({
       type: '$$RAPPER_CLEAR_STORE',
-      payload: {'DELETE/todo': undefined},
+      payload: {'POST/todo/del': undefined},
     })
   },
 
@@ -460,14 +460,14 @@ export const rapperBaseSelector = {
     type Item = IRapperStore['PUT/todo'][0]
     return reduxLib.getResponseData<TRapperStoreKey, Req, Res | undefined, Item>(state, 'PUT/todo', filter)
   },
-  'DELETE/todo': (
+  'POST/todo/del': (
     state: reduxLib.IState,
-    filter?: {request?: IModels['DELETE/todo']['Req']} | {(storeData: IRapperStore['DELETE/todo'][0]): boolean}
+    filter?: {request?: IModels['POST/todo/del']['Req']} | {(storeData: IRapperStore['POST/todo/del'][0]): boolean}
   ) => {
-    type Req = IModels['DELETE/todo']['Req']
-    type Res = IResponseTypes['DELETE/todo']
-    type Item = IRapperStore['DELETE/todo'][0]
-    return reduxLib.getResponseData<TRapperStoreKey, Req, Res | undefined, Item>(state, 'DELETE/todo', filter)
+    type Req = IModels['POST/todo/del']['Req']
+    type Res = IResponseTypes['POST/todo/del']
+    type Item = IRapperStore['POST/todo/del'][0]
+    return reduxLib.getResponseData<TRapperStoreKey, Req, Res | undefined, Item>(state, 'POST/todo/del', filter)
   },
   'POST/todo/finish': (
     state: reduxLib.IState,
@@ -511,9 +511,9 @@ export const rapperDataSelector = {
     type Res = IResponseTypes['PUT/todo']
     return reduxLib.getRapperDataSelector<TRapperStoreKey, Res>(state, 'PUT/todo')
   },
-  'DELETE/todo': (state: reduxLib.IState) => {
-    type Res = IResponseTypes['DELETE/todo']
-    return reduxLib.getRapperDataSelector<TRapperStoreKey, Res>(state, 'DELETE/todo')
+  'POST/todo/del': (state: reduxLib.IState) => {
+    type Res = IResponseTypes['POST/todo/del']
+    return reduxLib.getRapperDataSelector<TRapperStoreKey, Res>(state, 'POST/todo/del')
   },
   'POST/todo/finish': (state: reduxLib.IState) => {
     type Res = IResponseTypes['POST/todo/finish']
