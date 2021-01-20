@@ -1,3 +1,8 @@
+/**
+ * TodoList后端部分
+ * 后端采用koa2实现，todolist数组中每项包含三个部分：id,content和status。其中status有三个值：-1代表todo已完成，0代表未完成，1代表被收藏。
+ * 这样可以方便地实现被收藏事项排序在前，已完成排序在后，并且实现已经完成的事项自动取消收藏并置后
+ */
 const koa = require("koa");
 const app = new koa();
 const cors = require("koa2-cors");
