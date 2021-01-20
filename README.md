@@ -1,57 +1,46 @@
-# 何锐 二组（这个需求做不了队）
+# Getting Started with Create React App
 
-## TodoList 作业
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-这个才是 todolist 作业，因为之前创建应用的时候把第一天的两个作业弄混了所以应用描述有误 抱歉 ORZ...
+## Available Scripts
 
----
+In the project directory, you can run:
 
-## 系统文件
+### `yarn start`
 
-- .workbench
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-  - 不可删除，云开发平台应用部署配置文件
-  - fcRouteDefault，「路由/函数入口」配置入口
-  - cicd，构建打包部署应用的 Shell 指令集；核心：将要部署的内容全部打包到项目根目录的 code.zip 压缩包，云开发平台只认项目根目录的 code.zip 压缩包进行部署
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-- serverless.js
-  - SAFE，不可访问扩展名的目录或文件配置入口。加入此列表的目录，代表该目录下所有的文件都不可通过扩展名进行访问；加入此列表的文件，也不能通过扩展名进行访问；
+### `yarn test`
 
-## 创建静态应用
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- 将本地开发好的静态应用直接拖拽到 CloudIDE 项目文件列表即可
-- 或者直接在 CloudIDE 项目文件列表创建
+### `yarn build`
 
-## 创建 API
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-- 建议在 CloudIDE 项目文件列表创建目录用于统一存放相关的 API
-- API 格式
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-```
-module.exports.handler = function(event, context, callback) {
-    var request = JSON.parse(event);// 请求内容都会存储在 event 中，JSON编码后可遍历查看具体的内容
-    // do sth
-    var msg = '你好，世界！';
-    // 返回值格式
-    var responseObject = {
-        isBase64Encoded: false,//与 body 内容是否进行 base64 编码保持一致
-        statusCode: 200,//状态码，根据返回值自行决定适合的状态码
-        headers: {
-        	"Content-type": "text/html; charset=utf-8"//根据返回值设置正确的 Content-type
-        },
-        body: msg//返回值
-    };
-    callback(null, responseObject);//返回结果
-}
-```
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-- API 必须加入 serverless.js 的 SAFE 列表配置当中，避免泄漏
+### `yarn eject`
 
-## 调试
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-- 打开云开发部署测试插件，选择「开发环境」，选择要测试的路由，点击「测试」即可
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-## 部署
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-- 系统默认路由 /\* 不可更改
-- 打开云开发部署测试插件，选择环境，直接部署
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
