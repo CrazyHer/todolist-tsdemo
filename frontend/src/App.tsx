@@ -11,13 +11,14 @@ import {
   Tab,
   Tabs,
   TextField,
-} from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import "./App.css";
-import { fetch } from "./rapper";
-import { Delete, Star, StarOutline } from "@material-ui/icons";
+  LinearProgress,
+} from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import './App.css';
+import { fetch, Models } from './rapper';
+import { Delete, Star, StarOutline } from '@material-ui/icons';
 
 function App() {
   let [currentTab, setTab] = useState(0);
@@ -48,61 +49,54 @@ function App() {
 
 const TabPanel = (props: { tabValue: number }) => {
   const { tabValue } = props;
-  let [respData, setRespData] = useState<
-    | {
-        code: number;
-        message: string;
-        data: {
-          id: number;
-          content: string;
-          status: number;
-        }[];
-      }
-    | undefined
-  >();
+  let [respData, setRespData] = useState<Models['GET/todo/getlist']['Res']>();
   let [errorMessage, setErrMsg] = useState<string>();
-  let [todoContent, setTodoContent] = useState<string>("");
-  let [query, setQuery] = useState<string>("");
+  let [todoContent, setTodoContent] = useState<string>('');
+  let [query, setQuery] = useState<string>('');
+  let [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
-    fetch["GET/todo/getlist"]()
+    setLoading(true);
+    fetch['GET/todo/getlist']()
       .then((res) => setRespData(res))
-      .catch((err) => setErrMsg(err));
+      .catch((err) => setErrMsg(err))
+      .finally(() => setLoading(false));
   }, []);
 
-  if (errorMessage)
-    return (
-      <div>
-        <Alert severity='error'>
-          <AlertTitle>获取数据失败</AlertTitle>
-          {errorMessage}
-        </Alert>
-      </div>
-    );
-
   const handleFinish = async (id: number) => {
-    await fetch["POST/todo/finish"]({ id });
-    setRespData(await fetch["GET/todo/getlist"]());
+    setLoading(true);
+    await fetch['POST/todo/finish']({ id });
+    setRespData(await fetch['GET/todo/getlist']());
+    setLoading(false);
   };
   const handleStar = async (id: number) => {
-    await fetch["POST/todo/star"]({ id });
-    setRespData(await fetch["GET/todo/getlist"]());
+    setLoading(true);
+    await fetch['POST/todo/star']({ id });
+    setRespData(await fetch['GET/todo/getlist']());
+    setLoading(false);
   };
   const handleUnstar = async (id: number) => {
-    await fetch["POST/todo/unstar"]({ id });
-    setRespData(await fetch["GET/todo/getlist"]());
+    setLoading(true);
+    await fetch['POST/todo/unstar']({ id });
+    setRespData(await fetch['GET/todo/getlist']());
+    setLoading(false);
   };
   const handleDelete = async (id: number) => {
-    await fetch["POST/todo/del"]({ id });
-    setRespData(await fetch["GET/todo/getlist"]());
+    setLoading(true);
+    await fetch['POST/todo/del']({ id });
+    setRespData(await fetch['GET/todo/getlist']());
+    setLoading(false);
   };
   const handleAdd = async (content: string) => {
-    await fetch["PUT/todo"]({ content });
-    setTodoContent("");
-    setRespData(await fetch["GET/todo/getlist"]());
+    setLoading(true);
+    await fetch['PUT/todo']({ content });
+    setTodoContent('');
+    setRespData(await fetch['GET/todo/getlist']());
+    setLoading(false);
   };
 
   let todolist = respData?.data.filter((x) =>
-    query.trim() === "" ? true : x.content.indexOf(query.trim()) > -1
+    query.trim() === '' ? true : x.content.indexOf(query.trim()) > -1
   );
   switch (tabValue) {
     case 0:
@@ -119,6 +113,7 @@ const TabPanel = (props: { tabValue: number }) => {
     default:
       break;
   }
+
   return (
     <div>
       <TextField
@@ -127,7 +122,15 @@ const TabPanel = (props: { tabValue: number }) => {
         placeholder='搜索TODO内容'
         style={{ margin: 16 }}
       />
+      {loading && <LinearProgress />}
       <List>
+        {errorMessage && (
+          <Alert severity='error'>
+            <AlertTitle>获取数据失败</AlertTitle>
+            {errorMessage.toString()}
+          </Alert>
+        )}
+
         {todolist?.map((v) => (
           <ListItem
             key={v.id}
@@ -154,7 +157,7 @@ const TabPanel = (props: { tabValue: number }) => {
                   <StarOutline />
                 </IconButton>
               ) : (
-                ""
+                ''
               )}
               <IconButton edge='end' onClick={() => handleDelete(v.id)}>
                 <Delete />
@@ -175,7 +178,7 @@ const TabPanel = (props: { tabValue: number }) => {
           variant='contained'
           style={{ marginLeft: 8 }}
           onClick={() => handleAdd(todoContent)}
-          disabled={todoContent.trim() === ""}>
+          disabled={todoContent.trim() === ''}>
           添加
         </Button>
       </div>
